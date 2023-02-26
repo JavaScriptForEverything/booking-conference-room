@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import dayjs, { type Dayjs } from 'dayjs'
 
 import Layout from '@/layout'
 import StaticDatePicker from '@/components/DatePicker'
 import TimeCounter from '@/components/timeCounter'
 import TimeSlot from '@/components/timeSlot'
 import DayTest from '@/components/dayTest'
+import { timeSlotData } from '@/data/simeSlot'
 
 import Container from '@mui/system/Container'
 import Paper from '@mui/material/Paper'
@@ -14,13 +16,20 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import { timeSlotData } from '@/data/simeSlot'
-import dayjs, { type Dayjs } from 'dayjs'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogActions from '@mui/material/DialogActions'
 
 
 const Home = () => {
 	const [ duration, setDuration ] = useState(0)
-	const [ dateValue, setDateValue ] = useState<Dayjs | null>(null)
+	const [ calenderDate, setCalenderDate ] = useState<Dayjs | null>(null)
+	const [ isDialogOpen, setIsDialogOpen ] = useState(false)
+
+	const closeDialogHandler = () => setIsDialogOpen(false)
+	
 
 	const handleMeetingDuration = (evt: React.FormEvent<HTMLFormElement>) => {
 		evt.preventDefault()
@@ -42,6 +51,13 @@ const Home = () => {
 		// 	console.log(timeSlots)
 		// })
 
+	}
+
+	const bookingSubmitHandler = (evt: React.FormEvent<HTMLFormElement>) => {
+		evt.preventDefault()
+
+		setIsDialogOpen(true)
+		console.log('Booking')
 	}
 
 	return (
@@ -92,8 +108,8 @@ const Home = () => {
 								p: 1
 							})}>
 								<StaticDatePicker 
-									dateValue={dateValue}
-									setDateValue={setDateValue}
+									dateValue={calenderDate}
+									setDateValue={setCalenderDate}
 								/>
 							</Box>
 						</Grid>
@@ -113,7 +129,7 @@ const Home = () => {
 
 				<Grid container sx={{ mt: 4 }}>
 					<Grid item xs={12}>
-						<form>
+						<form onSubmit={bookingSubmitHandler}>
 							<TextField 
 								label='Aditional Details'
 								variant='outlined'
@@ -130,17 +146,35 @@ const Home = () => {
 							}}>
 								<Button 
 									variant='contained' 
-									disabled={!dayjs(dateValue).isValid()} 
+									disabled={!dayjs(calenderDate).isValid()} 
 									sx={{ textTransform: 'capitalize' }}
+									type='submit'
 								>Book Now</Button>
 							</Box>
 						</form>
 					</Grid>
 				</Grid>
 			</Paper>
-
 			</Container>
 
+			<Dialog 
+				open={isDialogOpen}
+				onClose={closeDialogHandler}
+				fullWidth
+			>
+				<DialogTitle>Show Selected Date</DialogTitle>
+				<DialogContent>
+					<DialogContentText>
+						{calenderDate?.format('DD MMMM YYYY')}
+					</DialogContentText>
+					<DialogContentText>
+						{calenderDate?.format('hh:mm:ss A')}
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button variant='outlined' onClick={closeDialogHandler}>Close</Button>
+				</DialogActions>
+			</Dialog>
 
 			{/* <DayTest /> */}
 		</Layout>
