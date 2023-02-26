@@ -10,8 +10,12 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker'
 import TextField from '@mui/material/TextField'
 
 
-const DatePickerComponent = () => {
-	const [ dateValue, setDateValue ] = useState<Dayjs | null>(null)
+type Props = {
+	dateValue: Dayjs | null,
+	setDateValue: React.Dispatch<React.SetStateAction<dayjs.Dayjs | null>>
+}
+const DatePickerComponent = ({ dateValue, setDateValue }: Props) => {
+	// const [ dateValue, setDateValue ] = useState<Dayjs | null>(null)
 
 	return (
 		<LocalizationProvider dateAdapter={AdapterDayjs}>

@@ -1,14 +1,40 @@
 import { useState } from 'react'
+import { timeSlotData } from '@/data/simeSlot'
 
 import Box from '@mui/system/Box'
 import Chip from '@mui/material/Chip'
+import dayjs from 'dayjs'
 
-const TimeSlot = () => {
+
+type Props = {
+	durationInput: number
+}
+
+const TimeSlot = ({ durationInput }: Props ) => {
 	const [ checked, setChecked ] = useState(0)
 
 	const handleClick = (id: number) => () => {
 		setChecked(id)
 	}
+
+	// const slotItems = timeSlotData.schedule.map(({ start, end }) => {
+	// 	const hourDifference = dayjs(end).diff(start, 'hour')
+
+	// 	const slicer = hourDifference / durationInput 	// => 10
+
+	// 	// const timeSlots = []
+
+	// 	// for(let index=1; index <= slicer; index++) {
+	// 	// 	const nextValue = dayjs(start).add(slicer * durationInput, 'minute')
+	// 	// 	timeSlots.push(nextValue)
+	// 	// }
+
+	// 	// return timeSlots
+
+	// 	return slicer
+	// })
+
+	// console.log(slotItems)
 
 	return (
 		<Box sx={{

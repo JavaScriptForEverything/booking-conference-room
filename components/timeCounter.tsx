@@ -4,14 +4,16 @@ import Typography from '@mui/material/Typography'
 
 
 const TimeCounter = () => {
-	const [ time, setTime ] = useState('')
+	const [ time, setTime ] = useState('00:00:00')
 
 	const currentTime = new Date(Date.now()).toLocaleTimeString()
 
 	useEffect(() => {
-		setTimeout(() => {
+		const interval = setInterval(() => {
 			setTime(currentTime)
 		}, 1000);
+
+		return () => clearInterval(interval)
 	}, [currentTime])
 
 
