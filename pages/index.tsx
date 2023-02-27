@@ -90,6 +90,7 @@ const Home = () => {
 							variant='outlined'
 							size='small'
 							sx={{ width: 60 }}	
+							type='number'
 
 							value={duration}
 							onChange={(evt) => setDuration(+evt.target.value)}
